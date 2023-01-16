@@ -1,0 +1,64 @@
+<div class="card" style="width: 100%; height: 75vh; border: none;" *ngIf="pokemon && loadPokemon; else loader">
+    <img [src]="pokemon.imagen" style="width: 200px;" class="card-img-top  mx-auto d-block">
+    <div class="card-body overflow-auto">
+      <h5 class="card-title">{{pokemon.nombre}}</h5>
+      <div class="container">
+        <h6 class="card-subtitle mb-1 text-muted text-start">Tipo:</h6>
+        <div class="d-inline-block mb-1">
+            <button type="button" class="mb-1 ms-1 btn btn-outline-dark btn-sm fw-bold" disabled
+                *ngFor = "let tipo of pokemon.type"
+            >
+                {{tipo}}
+            </button>
+        </div>
+        <h6 class="card-subtitle mb-1 text-muted text-start">Caracteristicas:</h6>
+        <div class="d-flex">
+            <p><i class="bi bi-dot fw-bold align-middle" style="font-size: 2rem;"></i>Peso: {{pokemon.peso.toFixed(2)}} kg</p>
+            <p><i class="bi bi-dot fw-bold align-middle" style="font-size: 2rem;"></i>Altura: {{pokemon.altura.toFixed(2)}} m</p>
+        </div>
+        <h6 class="card-subtitle mb-1 text-muted text-start">Habilidades:</h6>
+        <div class="d-inline-block">
+            <button type="button" class="mb-1 ms-1 btn btn-info btn-sm fw-bold" disabled
+            *ngFor = "let habilidad of pokemon.habilidades"
+            >
+                {{habilidad}}
+            </button>
+        </div>
+        <h6 class="card-subtitle mb-1 text-muted text-start">Estadisticas:</h6>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Tipo</th>
+                <th scope="col">Esfuerzo</th>
+                <th scope="col">Probabilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let estadistica of pokemon.estadisticas" >
+                <td>{{estadistica.nombre}}</td>
+                <td>{{estadistica.esfuerzo}}</td>
+                <td>{{estadistica.base_estadistica}} %</td>
+              </tr>
+            </tbody>
+        </table>
+        <h6 class="card-subtitle mb-1 text-muted text-start">Movimientos:</h6>
+        <ul class="list-group">
+            <li class="list-group-item"
+            *ngFor = "let movimiento of pokemon.movimientos"
+            >
+                {{movimiento}}
+            </li>
+        </ul>
+      </div>
+    </div>
+</div>
+<ng-template #loader>
+    <div class="card" style="width: 100%; height: 75vh; border: none;" >
+        <img src="../../assets/pokeball.jpg" 
+            style="width: 200px;" class="card-img-top mx-auto d-block"
+        >
+        <div class="card-body">
+          <p class="card-text">Selecciona un Pokemon para ver sus informacion</p>
+        </div>
+    </div>
+</ng-template>

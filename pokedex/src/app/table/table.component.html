@@ -1,0 +1,84 @@
+<div class="container mt-5 text-center">
+    <div class="row" *ngIf="loadData; else loader">
+        <h1 class=" col-lg-12 col-md-12 col-sm-12 card-subtitle mb-1 text-muted text-center">Pokedex</h1>
+        <div class="col-lg-8 col-md-8 co-sm-12">
+            <div class="mb-3 row">
+                <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Buscar Pokemon:</label>
+                <div class="col-xs-3 col-sm-auto">
+                    <input id="table-filtering-search" [(ngModel)]="busqueda" (ngModelChange)="buscarPokemon()" class="form-control" type="text"/>
+                    <div class="list-group" *ngIf="autoCompletado.length > 0 && busqueda.length > 0" style="z-index: 10; position: absolute;">
+                        <button type="button" class="list-group-item list-group-item-action"
+                            *ngFor = "let completar of autoCompletado"
+                            (click)="autoCompletarBusqueda(completar)"
+                        >
+                           {{completar.name}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Ver</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor = "let pokemon of pokemones" >
+                        <td>{{pokemon.name}}</td>
+                        <td><i (click)="obtenerPokemon(pokemon.url)" class="btn bi bi-eye-fill"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2">
+                <ngb-pagination
+                    [collectionSize]="todosPokemons"
+                    [(page)]="pagina"
+                    [pageSize]="pokemonesPagina"
+                    (pageChange)="refrescarPokemones()"
+                >
+                </ngb-pagination>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <app-poke-card
+                [pokemon] = "pokemon"
+                [loadPokemon] = "loadPokemon"
+            ></app-poke-card>
+        </div>
+        <div class="container">
+            <h1 class=" col-lg-12 col-md-12 col-sm-12 card-subtitle mb-1 text-muted text-center">Tabla resumen</h1>
+            <div class="col-lg-12 col-md-12 col-sm-12 ">
+                <table class="table">
+                    <thead class="table table-striped">
+                      <tr>
+                        <th scope="col">Letra</th>
+                        <th scope="col">Cantidad</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor = "let resumen of tablaResumen">
+                            <td>{{resumen.letra}}</td>
+                            <td>{{resumen.cantidad}}</td>
+                        </tr>
+                    </tbody>
+                    <div class="d-flex justify-content-between p-2">
+                        <ngb-pagination
+                            [collectionSize]="todosResumen"
+                            [(page)]="paginaResumen"
+                            [pageSize]="resumenesPagina"
+                            (pageChange)="refrescarResumen()"
+                        >
+                        </ngb-pagination>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+    <ng-template #loader>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+    </ng-template>
+</div>
+
